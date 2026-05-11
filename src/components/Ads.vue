@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import { nextTick, ref, watch } from 'vue';
+import Banner from './Banner.vue';
 
 const props = defineProps<{
     adsButton: boolean;
@@ -46,16 +47,25 @@ const onEnded = () => {
 </script>
 
 <template>
-    <div v-show="props.adsButton">
-        <video 
+    <div v-show="props.adsButton" class="">
+        <video
+            class="video-ad w-1_1 "
             ref="videoRef"
             :src="ads[currentIndex]" 
             autoplay
             @ended="onEnded"
         />
+        <Banner :ad="`ad${currentIndex+1}`" class="fixed-bottom  p-3_5 text-center"></Banner>
     </div>
-
-
 </template>
 
-<style scoped></style>
+<style scoped>
+.video-ad {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80vh;   /* que no tape el banner de abajo */
+    object-fit: contain;
+}
+</style>
