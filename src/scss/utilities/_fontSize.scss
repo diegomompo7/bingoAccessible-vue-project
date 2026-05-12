@@ -1,0 +1,4 @@
+// Display font sizes for large-screen bingo number output
+.fs-text_12xl { font-size: min(80vw, 120vh); }
+.fs-text_9xl  { font-size: min(60vw, 90vh);  }
+.fs-text_6xl  { font-size: min(40vw, 60vh);  }

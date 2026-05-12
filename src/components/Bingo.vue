@@ -1,20 +1,40 @@
 <script setup lang="ts">
-const props = defineProps<{
-    adsButton: boolean;
+defineProps<{
+  number: string;
+  adsActive: boolean;
 }>();
 </script>
 
 <template>
-    <div v-show="!props.adsButton" class="position-fixed top-50 start-50 translate-middle text-center fs-text_12xl">
-        <p>72</p>
-    </div>
+  <div
+    v-show="!adsActive"
+    class="bingo-display"
+    role="status"
+    aria-live="assertive"
+    aria-label="Número de bingo"
+  >
+    <span class="bingo-display__number">
+      {{ number || '—' }}
+    </span>
+  </div>
 </template>
 
 <style lang="scss" scoped>
+.bingo-display {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
 
-div {
-    font-size: 270px;
-    //font-size: min(45vw, 80vh);
-    @media (min-width: 320px) { font-size: min(80vw, 120vh);   }  // < 576px  (72px) 
+  &__number {
+    font-size: min(80vw, 120vh);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent);
+    line-height: 1;
+    text-shadow: var(--glow-lg);
+    user-select: none;
+  }
 }
 </style>
