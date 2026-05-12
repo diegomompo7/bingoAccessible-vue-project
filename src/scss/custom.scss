@@ -21,4 +21,8 @@
 @import "./utilities/marginPadding";
 @import "./utilities/colors";
 @import "./utilities/fontSize";
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
 
+body {
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+}

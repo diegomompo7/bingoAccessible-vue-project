@@ -7,13 +7,23 @@ const props = defineProps<{
     adsButton: boolean;
 }>();
 
-const adsUrl = import.meta.glob('@/assets/ads/*.mp4', {
+const adsUrlVideo = import.meta.glob('@/assets/ads/*.mp4', {
     eager: true,
     query: '?url',
     import: 'default',
 })
 
-const ads: string[] = Object.values(adsUrl) as string[]
+const adsUrlImage = import.meta.glob('@/assets/ads/*.jpg', {
+    eager: true,
+    query: '?url',
+    import: 'default',
+})
+
+const imageUrls = Object.values(adsUrlImage) as string[]
+const ads = Object.values(adsUrlVideo).map((video, i) => ({
+    video: video as string,
+    image: (imageUrls[i] ?? '') as string,
+}))
 
 const currentIndex = ref(0)
 const started = ref(false)
@@ -49,23 +59,31 @@ const onEnded = () => {
 <template>
     <div v-show="props.adsButton" class="">
         <video
-            class="video-ad w-1_1 "
+            class="video-ad w-1_1"
             ref="videoRef"
-            :src="ads[currentIndex]" 
+            :src="ads[currentIndex]?.video"
             autoplay
             @ended="onEnded"
         />
-        <Banner :ad="`ad${currentIndex+1}`" class="fixed-bottom  p-3_5 text-center"></Banner>
+        <b-container fluid="sm">
+            <img :src="ads[currentIndex]?.image" alt="" class="image-ad w-1_1" fluid="sm">
+            <Banner :ad="`ad${currentIndex+1}`" class="banner-ad fixed-bottom  p-4_5 text-center"></Banner>
+        </b-container>
     </div>
 </template>
 
-<style scoped>
-.video-ad {
+<style lang="scss" scoped>
+@import "../scss/bootstrap-mixins";
+
+.video-ad,
+.image-ad {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-width: 80vh;   /* que no tape el banner de abajo */
     object-fit: contain;
 }
+ @include media-breakpoint-up(sm)  { .image-ad{display: none;} .banner-ad{display: none;}}
+ @include media-breakpoint-down(sm)  { .video-ad{display: none;} .image-ad{max-width: 95vw;}}
+
 </style>
